@@ -31,7 +31,7 @@ class GameOfLife
     puts @board.to_s
     iterations.times {
       puts "clear"
-      puts @board.to_s
+      puts @board
       tick
     }
   end
@@ -65,6 +65,13 @@ class Board
     @position[9][10] = 1
     @position[10][10] = 1
     @position[11][10] = 1
+  end
+  def create_glider
+    @position[4][2] = 1
+    @position[4][3] = 1
+    @position[4][4] = 1
+    @position[3][4] = 1
+    @position[2][3] = 1
   end
   
   def at(x, y, value = nil)
@@ -151,6 +158,6 @@ class Cell
   end
 
   def to_s
-    alive? ? "X" : "_"
+    alive? ? "#" : "_"
   end
 end
