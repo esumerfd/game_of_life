@@ -171,6 +171,7 @@ class Board
     max_height = lines.size
 
     new_width = [max_width, max_height].max * 2
+    new_width = 64 if new_width > 64 # My screen isn't that big
     if new_width > @width
       @width = new_width
       @position = init_board(new_width)
