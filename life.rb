@@ -129,12 +129,6 @@ class Board
     counter
   end
 
-  def row(y)
-    row_values = []
-    @width.times { |column| row_values << at(column, y) }
-    row_values
-  end
-
   def to_s
     output = StringIO.new
     output << "-- "
