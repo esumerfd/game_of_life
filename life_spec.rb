@@ -22,7 +22,7 @@ describe GameOfLife do
   context "blank board" do
     it "starts with initial world" do
       life = GameOfLife.new
-      life.board.create_block
+      life.board.setup :block
 
       life.board.at(9, 9).should be_alive
       life.board.at(10, 9).should be_alive
@@ -54,7 +54,7 @@ describe GameOfLife do
 
     it "ossilating blinker" do
       life = GameOfLife.new
-      life.board.create_blinker
+      life.board.setup :blinker
 
       # Before
       #

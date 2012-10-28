@@ -50,28 +50,6 @@ class Board
   def setup(type)
     self.send("create_#{type}") if type
   end
-
-  def create_block
-    layout "##\n##\n"
-  end
-  def create_beacon
-    layout <<-LAYOUT
-    ##
-    # 
-       #
-      ##
-    LAYOUT
-  end
-  def create_blinker
-    layout "###"
-  end
-  def create_glider
-    layout <<-LAYOUT
-      #
-    # #
-     ##
-    LAYOUT
-  end
   
   def at(x, y, value = nil)
     return 0 if x < 0 || x >= @width || y < 0 || y >= @width
@@ -124,6 +102,28 @@ class Board
   end
 
   private
+  def create_block
+    layout "##\n##\n"
+  end
+  def create_beacon
+    layout <<-LAYOUT
+    ##
+    # 
+       #
+      ##
+    LAYOUT
+  end
+  def create_blinker
+    layout "###"
+  end
+  def create_glider
+    layout <<-LAYOUT
+      #
+    # #
+     ##
+    LAYOUT
+  end
+
   def layout(format)
     lines = format.split("\n")
 
