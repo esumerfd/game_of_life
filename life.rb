@@ -14,15 +14,9 @@ class GameOfLife
 
     @board.scan do |cell|
       neibors = cell.neibors
-      if cell.alive? && neibors < 2
-        actions << lambda { cell.die }
-      end
-      if cell.alive? && neibors > 3
-        actions << lambda { cell.die  }
-      end
-      if cell.dead? && neibors == 3
-        actions << lambda { cell.born  }
-      end
+      actions << lambda { cell.die } if cell.alive? && neibors < 2
+      actions << lambda { cell.born  } if cell.dead? && neibors == 3
+      actions << lambda { cell.die  } if cell.alive? && neibors > 3
     end
 
     actions.each { |action| action.call }
@@ -47,15 +41,13 @@ class Board
     @position = (0..@width-1).collect { |x| [0] * @width }
   end
 
-  # Layout Stable
   def create_block
     @position[10][10] = 1
     @position[11][10] = 1
     @position[10][11] = 1
     @position[11][11] = 1
   end
-  # Layout Blinker
-  def create_blinker
+  def create_beacon
     @position[10][10] = 1
     @position[11][10] = 1
     @position[10][11] = 1
@@ -63,6 +55,11 @@ class Board
     @position[13][12] = 1
     @position[13][13] = 1
     @position[12][13] = 1
+  end
+  def create_blinker
+    @position[9][10] = 1
+    @position[10][10] = 1
+    @position[11][10] = 1
   end
   
   def at(x, y, value = nil)
