@@ -1,3 +1,11 @@
 Game of Life
 
 Practice for Code Retreat
+
+usage:
+
+  start.sh [<type>]
+
+  start.sh beacon
+  start.sh blinker
+

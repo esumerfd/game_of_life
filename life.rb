@@ -6,7 +6,7 @@ class GameOfLife
   def initialize(type = nil)
     @board = Board.new
 
-    @board.send("create_#{type}") if type
+    @board.setup(type)
   end
 
   def tick
@@ -29,9 +29,10 @@ class GameOfLife
 
   def run(iterations = 10)
     puts @board.to_s
-    iterations.times {
+    iterations.times { |number|
       puts "clear"
       puts @board
+      puts "Tick: #{number} of #{iterations}, ctrl-c to exit"
       tick
     }
   end
@@ -46,20 +47,44 @@ class Board
     @position = (0..@width-1).collect { |x| [0] * @width }
   end
 
+  def layout(format)
+    lines = format.split("\n")
+
+    # Sizes
+    max_width = lines.collect { |line| line.size }.max
+    max_height = lines.size
+
+    # Position
+    left = (@width / 2) - (max_width / 2)
+    top = (@width / 2) - (max_height / 2)
+
+    row = 0
+    lines.each do |line|
+      column = 0
+      line.each_char do |char|
+        @position[left + column][top + row] = 1 if char == "#"
+        column += 1
+      end
+      row += 1
+    end
+    
+    self
+  end
+
+  def setup(type)
+    self.send("create_#{type}") if type
+  end
+
   def create_block
-    @position[10][10] = 1
-    @position[11][10] = 1
-    @position[10][11] = 1
-    @position[11][11] = 1
+    layout "##\n##\n"
   end
   def create_beacon
-    @position[10][10] = 1
-    @position[11][10] = 1
-    @position[10][11] = 1
-
-    @position[13][12] = 1
-    @position[13][13] = 1
-    @position[12][13] = 1
+    layout <<-LAYOUT
+##
+# 
+   #
+  ##
+    LAYOUT
   end
   def create_blinker
     @position[9][10] = 1
@@ -104,9 +129,23 @@ class Board
     counter
   end
 
+  def row(y)
+    row_values = []
+    @width.times { |column| row_values << at(column, y) }
+    row_values
+  end
+
   def to_s
     output = StringIO.new
+    output << "-- "
+    @width.times { |x|
+      output << "#{x % 10}"
+    }
+    output << "\n"
+
     @width.times { |y|
+
+      output << sprintf("%02d ", y)
       @width.times { |x| 
         cell = Cell.new(self, x, y)
         output << cell.to_s

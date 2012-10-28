@@ -96,6 +96,26 @@ describe Board do
     end
   end
 
+  context "layout" do
+    it "converts string into layout" do
+      board = Board.new.layout "#"
+
+      board.at(10, 10).should be_alive
+    end
+
+    it "converts multiline string into layout" do
+      board = Board.new.layout <<-LAYOUT
+##
+##
+LAYOUT
+
+      board.at(9, 9).should be_alive
+      board.at(10, 9).should be_alive
+      board.at(9, 10).should be_alive
+      board.at(10, 10).should be_alive
+    end
+  end
+
   context "scan" do
     it "scans the neibors only missing the center" do
       scanned = []

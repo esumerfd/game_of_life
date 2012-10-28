@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+$:.unshift "."
 require 'life'
 
 type = "blinker"
