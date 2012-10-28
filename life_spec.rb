@@ -24,52 +24,48 @@ describe GameOfLife do
       life = GameOfLife.new
       life.board.create_block
 
+      life.board.at(9, 9).should be_alive
+      life.board.at(10, 9).should be_alive
+      life.board.at(9, 10).should be_alive
       life.board.at(10, 10).should be_alive
-      life.board.at(11, 10).should be_alive
-      life.board.at(10, 11).should be_alive
-      life.board.at(11, 11).should be_alive
     end
 
     it "starts by creating a cell for a stable conclusion" do
       life = GameOfLife.new
-      life.board.create_block
+      life.board.layout "##\n#\n"
+      
+      life.board.at(10, 10).should_not be_alive
 
-      life.tick
-
-      #
       # Before
       #
       #   XX
       #   X
-      #
+      life.tick
+
       # After
       #
       #   XX
       #   XX
-      #
+      life.board.at(9, 9).should be_alive
+      life.board.at(10, 9).should be_alive
+      life.board.at(9, 10).should be_alive
       life.board.at(10, 10).should be_alive
-      life.board.at(11, 10).should be_alive
-      life.board.at(10, 11).should be_alive
-      life.board.at(11, 11).should be_alive
     end
 
     it "ossilating blinker" do
       life = GameOfLife.new
       life.board.create_blinker
 
-      life.tick
-
-      #
       # Before
       #
       #   XXX
-      #
+      life.tick
+
       # After
       #
       #   X
       #   X
       #   X
-      #
       life.board.at(10, 9).should be_alive
       life.board.at(10, 10).should be_alive
       life.board.at(10, 11).should be_alive
