@@ -12,7 +12,7 @@ class GameOfLife
   def tick
     actions = []
 
-    @board.scan do |cell|
+    @board.each_cell do |cell|
       actions << rule(cell)
     end
 
@@ -107,7 +107,7 @@ class Board
     Cell.new(self, x, y)
   end
 
-  def scan(x = nil, y = nil)
+  def each_cell(x = nil, y = nil)
     if (x && y)
       (x-1..x+1).each { |cell_x| 
         (y-1..y+1).each { |cell_y| 
@@ -121,7 +121,7 @@ class Board
 
   def neibors(x, y)
     counter = 0
-    scan(x, y) do |cell|
+    each_cell(x, y) do |cell|
       counter += 1 if cell.alive?
     end
     counter

@@ -112,13 +112,13 @@ LAYOUT
     end
   end
 
-  context "scan" do
+  context "each_cell" do
     it "scans the neibors only missing the center" do
       scanned = []
 
       board = Board.new
       board.at(10, 10, 1)
-      board.scan(10, 10) { |cell|
+      board.each_cell(10, 10) { |cell|
         scanned << cell if cell.dead?
       }
 
@@ -138,7 +138,7 @@ LAYOUT
 
     it "counts all" do
       board = Board.new
-      board.scan { |cell|
+      board.each_cell { |cell|
         cell.born
       }
       board.neibors(0, 0).should == 3
