@@ -47,30 +47,6 @@ class Board
     @position = (0..@width-1).collect { |x| [0] * @width }
   end
 
-  def layout(format)
-    lines = format.split("\n")
-
-    # Sizes
-    max_width = lines.collect { |line| line.size }.max
-    max_height = lines.size
-
-    # Position
-    left = (@width / 2) - (max_width / 2)
-    top = (@width / 2) - (max_height / 2)
-
-    row = 0
-    lines.each do |line|
-      column = 0
-      line.each_char do |char|
-        @position[left + column][top + row] = 1 if char == "#"
-        column += 1
-      end
-      row += 1
-    end
-    
-    self
-  end
-
   def setup(type)
     self.send("create_#{type}") if type
   end
@@ -145,6 +121,31 @@ class Board
       }
     }
     output.string
+  end
+
+  private
+  def layout(format)
+    lines = format.split("\n")
+
+    # Sizes
+    max_width = lines.collect { |line| line.size }.max
+    max_height = lines.size
+
+    # Position
+    left = (@width / 2) - (max_width / 2)
+    top = (@width / 2) - (max_height / 2)
+
+    row = 0
+    lines.each do |line|
+      column = 0
+      line.each_char do |char|
+        @position[left + column][top + row] = 1 if char == "#"
+        column += 1
+      end
+      row += 1
+    end
+    
+    self
   end
 end
 

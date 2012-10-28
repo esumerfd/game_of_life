@@ -32,7 +32,7 @@ describe GameOfLife do
 
     it "starts by creating a cell for a stable conclusion" do
       life = GameOfLife.new
-      life.board.layout "##\n#\n"
+      life.board.send :layout, "##\n#\n"
       
       life.board.at(10, 10).should_not be_alive
 
@@ -94,13 +94,13 @@ describe Board do
 
   context "layout" do
     it "converts string into layout" do
-      board = Board.new.layout "#"
+      board = Board.new.send :layout,"#"
 
       board.at(10, 10).should be_alive
     end
 
     it "converts multiline string into layout" do
-      board = Board.new.layout <<-LAYOUT
+      board = Board.new.send :layout, <<-LAYOUT
 ##
 ##
 LAYOUT
