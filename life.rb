@@ -31,9 +31,9 @@ class GameOfLife
   def run(iterations = 10)
     puts @board.to_s
     iterations.times {
-      puts "#########################"
-      tick
+      puts "clear"
       puts @board.to_s
+      tick
     }
   end
 
@@ -56,9 +56,13 @@ class Board
   end
   # Layout Blinker
   def create_blinker
-    @position[9][10] = 1
     @position[10][10] = 1
     @position[11][10] = 1
+    @position[10][11] = 1
+
+    @position[13][12] = 1
+    @position[13][13] = 1
+    @position[12][13] = 1
   end
   
   def at(x, y, value = nil)
