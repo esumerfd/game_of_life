@@ -40,7 +40,7 @@ class GameOfLife
 end
 
 class Board
-  attr_reader :width, :position
+  attr_reader :position
 
   def initialize(width = 20)
     @width = width
@@ -49,6 +49,10 @@ class Board
 
   def setup(type)
     self.send("create_#{type}") if type
+  end
+
+  def last_column?(x)
+    x == @width - 1
   end
   
   def at(x, y, value = nil)
@@ -182,7 +186,7 @@ class Cell
   end
 
   def last_in_row?
-    @x == @board.width - 1
+    @board.last_column?(@x)
   end
 
   def debug

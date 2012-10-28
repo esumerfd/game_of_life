@@ -148,6 +148,13 @@ LAYOUT
       board.neibors(100, 100).should == 0
     end
   end
+
+  context "determines its own boundaries" do
+    it "answers last column questions" do
+      Board.new(2).last_column?(0).should be_false
+      Board.new(2).last_column?(1).should be_true
+    end
+  end
 end
 
 describe Cell do
