@@ -49,7 +49,11 @@ class Board
 
   def initialize(width = 20)
     @width = width
-    @position = (0..@width-1).collect { |x| [0] * @width }
+    @position = init_board(width)
+  end
+
+  def init_board(width)
+    (0..@width-1).collect { |x| [0] * @width }
   end
 
   def setup(type)
@@ -132,6 +136,29 @@ class Board
      ##
     LAYOUT
   end
+  def create_growth1
+    layout <<-LAYOUT
+          #
+        # ##
+        # #
+        #
+      #
+    # #
+    LAYOUT
+  end
+  def create_gosper_glider_gun
+    layout <<-LAYOUT
+                            #
+                          # #
+                ##      ##            ##
+               #   #    ##            ##
+    ##        #     #   ##
+    ##        #   # ##    # #
+              #     #       #
+               #   #
+                ##
+    LAYOUT
+  end
 
   def layout(format)
     lines = format.split("\n")
@@ -142,6 +169,12 @@ class Board
     # Sizes
     max_width = lines.collect { |line| line.size - left_offset }.max
     max_height = lines.size
+
+    new_width = [max_width, max_height].max * 2
+    if new_width > @width
+      @width = new_width
+      @position = init_board(new_width)
+    end
 
     # Position
     left = (@width / 2) - (max_width / 2)
