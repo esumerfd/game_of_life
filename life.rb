@@ -13,13 +13,18 @@ class GameOfLife
     actions = []
 
     @board.scan do |cell|
-      neibors = cell.neibors
-      actions << lambda { cell.die } if cell.alive? && neibors < 2
-      actions << lambda { cell.born  } if cell.dead? && neibors == 3
-      actions << lambda { cell.die  } if cell.alive? && neibors > 3
+      actions << rule(cell)
     end
 
     actions.each { |action| action.call }
+  end
+
+  def rule(cell)
+    action = lambda {}
+    action = lambda { cell.die } if cell.alive? && cell.neibors < 2
+    action = lambda { cell.born  } if cell.dead? && cell.neibors == 3
+    action = lambda { cell.die  } if cell.alive? && cell.neibors > 3
+    action
   end
 
   def run(iterations = 10)
