@@ -80,23 +80,21 @@ class Board
   end
   def create_beacon
     layout <<-LAYOUT
-##
-# 
-   #
-  ##
+    ##
+    # 
+       #
+      ##
     LAYOUT
   end
   def create_blinker
-    @position[9][10] = 1
-    @position[10][10] = 1
-    @position[11][10] = 1
+    layout "###"
   end
   def create_glider
-    @position[4][2] = 1
-    @position[4][3] = 1
-    @position[4][4] = 1
-    @position[3][4] = 1
-    @position[2][3] = 1
+    layout <<-LAYOUT
+      #
+    # #
+     ##
+    LAYOUT
   end
   
   def at(x, y, value = nil)
