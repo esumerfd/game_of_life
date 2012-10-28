@@ -37,6 +37,11 @@ class GameOfLife
 
     actions.each { |action| action.call }
   end
+
+  def to_s
+    puts "Game of Life - Current Status"
+    @board.to_s
+  end
 end
 
 class Board
@@ -131,8 +136,11 @@ class Board
   def layout(format)
     lines = format.split("\n")
 
+    # Ignore blank columns on left
+    left_offset = lines.collect { |line| line.index("#") }.min
+
     # Sizes
-    max_width = lines.collect { |line| line.size }.max
+    max_width = lines.collect { |line| line.size - left_offset }.max
     max_height = lines.size
 
     # Position
@@ -143,7 +151,9 @@ class Board
     lines.each do |line|
       column = 0
       line.each_char do |char|
-        @position[left + column][top + row] = 1 if char == "#"
+        if column >= left_offset
+          @position[left + column - left_offset][top + row] = 1 if char == "#"
+        end
         column += 1
       end
       row += 1
