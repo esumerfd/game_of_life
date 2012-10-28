@@ -40,7 +40,7 @@ describe GameOfLife do
       #
       #   XX
       #   X
-      life.tick
+      life.send(:tick)
 
       # After
       #
@@ -59,7 +59,7 @@ describe GameOfLife do
       # Before
       #
       #   XXX
-      life.tick
+      life.send(:tick)
 
       # After
       #

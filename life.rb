@@ -9,24 +9,6 @@ class GameOfLife
     @board.setup(type)
   end
 
-  def tick
-    actions = []
-
-    @board.each_cell do |cell|
-      actions << rule(cell)
-    end
-
-    actions.each { |action| action.call }
-  end
-
-  def rule(cell)
-    action = lambda {}
-    action = lambda { cell.die } if cell.alive? && cell.neibors < 2
-    action = lambda { cell.born  } if cell.dead? && cell.neibors == 3
-    action = lambda { cell.die  } if cell.alive? && cell.neibors > 3
-    action
-  end
-
   def run(iterations = 10)
     puts @board.to_s
     iterations.times { |number|
@@ -37,6 +19,24 @@ class GameOfLife
     }
   end
 
+  private
+  def rule(cell)
+    action = lambda {}
+    action = lambda { cell.die } if cell.alive? && cell.neibors < 2
+    action = lambda { cell.born  } if cell.dead? && cell.neibors == 3
+    action = lambda { cell.die  } if cell.alive? && cell.neibors > 3
+    action
+  end
+
+  def tick
+    actions = []
+
+    @board.each_cell do |cell|
+      actions << rule(cell)
+    end
+
+    actions.each { |action| action.call }
+  end
 end
 
 class Board
