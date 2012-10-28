@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'life'
+
+life = GameOfLife.new(:beacon)
+life.run
