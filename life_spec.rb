@@ -37,13 +37,11 @@ describe GameOfLife do
       life.board.at(10, 10).should_not be_alive
 
       # Before
-      #
       #   XX
       #   X
       life.send(:tick)
 
       # After
-      #
       #   XX
       #   XX
       life.board.at(9, 9).should be_alive
@@ -57,12 +55,10 @@ describe GameOfLife do
       life.board.setup :blinker
 
       # Before
-      #
       #   XXX
       life.send(:tick)
 
       # After
-      #
       #   X
       #   X
       #   X
@@ -101,9 +97,9 @@ describe Board do
 
     it "converts multiline string into layout" do
       board = Board.new.send :layout, <<-LAYOUT
-##
-##
-LAYOUT
+      ##
+      ##
+      LAYOUT
 
       board.at(9, 9).should be_alive
       board.at(10, 9).should be_alive
@@ -146,6 +142,14 @@ LAYOUT
       board.neibors(19, 19).should == 3
 
       board.neibors(100, 100).should == 0
+    end
+
+    it "wraps around" do
+      board = Board.new
+      board.at(board.last_column, 0, 1)
+      board.at(board.last_row, 0, 1)
+
+      board.neibors(0, 0).should == 2
     end
   end
 

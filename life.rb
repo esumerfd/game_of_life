@@ -61,7 +61,15 @@ class Board
   end
 
   def last_column?(x)
-    x == @width - 1
+    x == last_column
+  end
+
+  def last_column
+    @width - 1
+  end
+  
+  def last_row
+    @width - 1
   end
   
   def at(x, y, value = nil)
@@ -78,7 +86,9 @@ class Board
     if (x && y)
       (x-1..x+1).each { |cell_x| 
         (y-1..y+1).each { |cell_y| 
-          yield cell(cell_x, cell_y) unless cell_x == x && cell_y == y
+          wrapped_x = cell_x % @width
+          wrapped_y = cell_y % @width
+          yield cell(wrapped_x, wrapped_y) unless wrapped_x == x && wrapped_y == y
         }
       }
     else
