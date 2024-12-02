@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { WorkerFactory } from '../../lib/worker/workerFactory';
 
 @Component({
   selector: 'app-board',
@@ -10,19 +11,18 @@ export class BoardComponent {
 
   worker: Worker
 
-  message: string = "hello"
+  message: string
 
   constructor() {
-    this.worker = new Worker(new URL('../board_worker/board.worker', import.meta.url));
 
-    this.message = "running"
+    this.worker = WorkerFactory.board(data => {
+      this.message = data
+    });
 
+    this.message = ""
   }
 
   public ready() {
-    this.worker.onmessage = ({ data }) => {
-      this.message = data
-    };
     this.worker.postMessage('ready');
   }
 
