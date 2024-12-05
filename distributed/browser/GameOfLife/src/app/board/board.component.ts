@@ -24,10 +24,6 @@ export class BoardComponent {
     this.worker.postMessage('ready');
   }
 
-  public status() {
-    this.worker.postMessage('status');
-  }
-
   public render(message: string) {
     this.message = "Running"
 
