@@ -11,13 +11,27 @@ describe('Board', function() {
       expect(board.hasLife()).toBe(false)
     })
 
-    fit('state with life', function() {
+    it('state with life', function() {
       const board = Board.init()
 
       board.addLife()
 
       expect(board).toBeTruthy()
       expect(board.hasLife()).toBe(true)
+    })
+
+    fit('encode board', function() {
+      expect(Board.init().encode()).toEqual(Board.template(
+        `__________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________`))
     })
   })
 })

@@ -18,10 +18,16 @@ export class BoardComponent {
 
   constructor() {
     this.worker = WorkerFactory.board((data) => this.render(data));
+
+    setInterval(() => this.updateBoard(), 1000)
   }
 
-  public ready() {
-    this.worker.postMessage('ready');
+  public reset() {
+    this.worker.postMessage('reset');
+  }
+
+  public updateBoard() {
+    this.worker.postMessage('get')
   }
 
   public render(message: string) {

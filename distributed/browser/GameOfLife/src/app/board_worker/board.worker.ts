@@ -1,8 +1,16 @@
 /// <reference lib="webworker" />
 
+import { Board } from '../../lib/domain/board'
+
+let board = Board.init()
+
 addEventListener('message', ({ data }) => {
-  if (data == "ready") {
-    postMessage(`ready: ${Date.now()}`);
+  if (data == "reset") {
+    board = Board.init()
+  }
+  else if (data == "get") {
+    let encodedBoard = board.encode()
+    postMessage(encodedBoard)
   }
 });
 
@@ -10,29 +18,8 @@ function initialize() {
   setInterval(loop, 1000)
 }
 
-let board = [Array.from("__________"),Array.from("__________"),Array.from("__________"),Array.from("__________"),Array.from("__________"),Array.from("__________"),Array.from("__________"),Array.from("__________"),Array.from("__________"),Array.from("__________")]
-
 function loop() {
-  applyChange(board)
-
-  let encodedBoard = encodeBoard(board)
-
-  postMessage(encodedBoard)
-}
-
-function applyChange(board: Array<Array<string>>) {
-  let randomRow = Math.floor(Math.random() * 10);
-  let randomCell = Math.floor(Math.random() * 10);
-
-  board[randomRow][randomCell] = "X"
-}
-
-function encodeBoard(board: Array<Array<string>>): string {
-  let encodedBoard = ""
-  for (let row in board) {
-    encodedBoard += board[row].join("") + "\n"
-  }
-  return encodedBoard
+  board.applyChange()
 }
 
 initialize()
