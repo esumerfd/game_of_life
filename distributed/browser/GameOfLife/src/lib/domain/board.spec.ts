@@ -34,5 +34,39 @@ describe('Board', function() {
          __________`))
     })
   })
+
+  describe("initializes from template", function () {
+    it("empty", function() {
+      let board = Board.fromTemplate(
+        `__________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________
+         __________`)
+
+      expect(board.hasLife()).toBeFalse()
+    })
+
+    it("has life", function() {
+      let board = Board.fromTemplate(
+        `__________
+         __________
+         __________
+         __________
+         __________
+         _____x____
+         __________
+         __________
+         __________
+         __________`)
+
+      expect(board.hasLife()).toBeTrue()
+    })
+  })
 })
 

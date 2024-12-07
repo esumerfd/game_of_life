@@ -1,13 +1,14 @@
 export class Cell {
 
-  static CODE_EMPTY: string = "_"
+  static CODE_EMPTY: string = " "
   static CODE_ALIVE: string = "x"
+  static CODE_DEAD:  string = "_"
 
   static EMPTY: Cell = new Cell(Cell.CODE_EMPTY)
   static ALIVE: Cell = new Cell(Cell.CODE_ALIVE)
+  static DEAD:  Cell = new Cell(Cell.CODE_DEAD)
 
   public static from(encodedRow: string) {
-
     return Array.from(encodedRow).map((encodedCell) => {
       return new Cell(encodedCell)
     })
@@ -20,7 +21,11 @@ export class Cell {
   }
 
   public isAlive() {
-    return this.equal(Cell.EMPTY)
+    return this.equal(Cell.ALIVE)
+  }
+
+  public isDead() {
+    return this.equal(Cell.DEAD)
   }
 
   public equal(other: Cell) {
@@ -30,9 +35,26 @@ export class Cell {
   public toCode(): string {
     return this.state
   }
+
+  public neibors(): number {
+    return 0
+  }
+
+  public die() {
+    this.state = Cell.CODE_DEAD
+  }
+
+  public born() {
+    this.state = Cell.CODE_ALIVE
+  }
 }
 
 export class Board {
+  public static fromTemplate(template: string): Board {
+    const encodedBoard = Board.template(template)
+    return Board.decode(encodedBoard)
+  }
+
   public static template(template: string): string {
     let encodedBoard = ""
     let rows = template.split("\n")
@@ -42,22 +64,45 @@ export class Board {
     return encodedBoard
   }
 
-  public static init() {
-    return new Board()
+  public static decode(template: string): Board {
+    const state = []
+
+    let rows = template.split("\n")
+    for (let row in rows) {
+      state.push(Cell.from(row))
+    }
+
+    return new Board(state)
   }
 
-  state: Array<Array<Cell>> = [
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-    Cell.from("__________"),
-  ]
+  public static init() {
+    return new Board([
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________"),
+      Cell.from("__________")
+    ])
+  }
+
+  state: Array<Array<Cell>> = []
+
+  constructor(state: Array<Array<Cell>>) {
+    this.state = state
+  }
+
+  public eachCell(closure: (cell: Cell) => void) {
+    for (let row in this.state) {
+      for (let cell in this.state[row]) {
+        closure(this.state[row][cell])
+      }
+    }
+  }
 
   public addLife() {
     this.state[1][1] = Cell.ALIVE
@@ -78,13 +123,6 @@ export class Board {
       encodedBoard += this.state[row].map((cell) => cell.toCode()).join("") + "\n"
     }
     return encodedBoard
-  }
-
-  public applyChange() {
-    let randomRow = Math.floor(Math.random() * 10);
-    let randomCell = Math.floor(Math.random() * 10);
-
-    this.state[randomRow][randomCell] = Cell.ALIVE
   }
 }
 
