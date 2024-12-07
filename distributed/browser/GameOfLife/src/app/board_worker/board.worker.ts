@@ -1,15 +1,16 @@
 /// <reference lib="webworker" />
 
+import { GameOfLife } from '../../lib/domain/gameOfLife'
 import { Board } from '../../lib/domain/board'
 
-let board = Board.init()
+let gameOfLife = GameOfLife.init(Board.init())
 
 addEventListener('message', ({ data }) => {
   if (data == "reset") {
-    board = Board.init()
+    gameOfLife = GameOfLife.init(Board.init())
   }
   else if (data == "get") {
-    let encodedBoard = board.encode()
+    let encodedBoard = gameOfLife.board.encode()
     postMessage(encodedBoard)
   }
 });
@@ -19,7 +20,7 @@ function initialize() {
 }
 
 function loop() {
-  board.applyChange()
+  gameOfLife.update()
 }
 
 initialize()
