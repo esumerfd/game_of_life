@@ -172,6 +172,10 @@ export class Board {
     })
   }
 
+  public clone(): Board {
+    return Board.decode(this.encode())
+  }
+
   public atLocation(location: Location): Cell {
     return this.at(location.x, location.y)
   }

@@ -119,6 +119,14 @@ describe('Board', function() {
     })
   })
 
+  describe('clone', function() {
+    it('copies board', function() {
+      let board = Board.fromTemplate('_x_')
+
+      expect(board.clone()).toEqual(Board.fromTemplate('_x_'))
+    })
+  })
+
   describe("initializes from template", function () {
     it("empty", function() {
       let board = Board.fromTemplate(

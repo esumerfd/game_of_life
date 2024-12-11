@@ -15,11 +15,11 @@ const board = Board.fromTemplate(
    _____x____
    __________`)
 
-let gameOfLife = GameOfLife.init(board)
+let gameOfLife = GameOfLife.init(board.clone())
 
 addEventListener('message', ({ data }) => {
   if (data == "reset") {
-    gameOfLife = GameOfLife.init(Board.init())
+    gameOfLife = GameOfLife.init(board.clone())
   }
   else if (data == "get") {
     let encodedBoard = gameOfLife.board.encode()
