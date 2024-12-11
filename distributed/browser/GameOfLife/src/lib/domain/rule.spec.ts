@@ -27,7 +27,7 @@ describe("Board rules", function() {
        __________
        __________
        __________
-       ____X_____
+       ____x_____
        __________
        __________
        __________
@@ -54,15 +54,15 @@ describe("Board rules", function() {
     })
   })
 
-  describe("Rule Die", function() {
-    it("has no life", function() {
+  describe("die", function() {
+    it("because no life", function() {
       const changes = Rules.init().check(boardEmpty)
 
       expect(changes).toHaveSize(0)
       expect(boardEmpty.hasLife()).toBeFalsy()
     })
 
-    it("has one life", function() {
+    it("should change to die", function() {
       const changes = Rules.init().check(boardLife)
 
       expect(changes).toHaveSize(1)

@@ -1,4 +1,5 @@
 import { Board } from './board'
+import { Rules } from './rule'
 
 export class GameOfLife {
 
@@ -6,6 +7,7 @@ export class GameOfLife {
     return new GameOfLife(board)
   }
 
+  rules: Rules = Rules.init()
   board: Board
 
   constructor(board: Board) {
@@ -13,6 +15,8 @@ export class GameOfLife {
   }
 
   public update() {
-    // this.board.applyChange()
+    const changes = this.rules.check(this.board)
+
+    this.board.apply(changes)
   }
 }

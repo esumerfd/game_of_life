@@ -3,7 +3,19 @@
 import { GameOfLife } from '../../lib/domain/gameOfLife'
 import { Board } from '../../lib/domain/board'
 
-let gameOfLife = GameOfLife.init(Board.init())
+const board = Board.fromTemplate(
+  `__________
+   __________
+   __________
+   __________
+   ____xx____
+   __________
+   __________
+   ____xxx___
+   _____x____
+   __________`)
+
+let gameOfLife = GameOfLife.init(board)
 
 addEventListener('message', ({ data }) => {
   if (data == "reset") {
