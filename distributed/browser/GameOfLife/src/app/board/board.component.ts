@@ -23,11 +23,11 @@ export class BoardComponent {
   }
 
   public reset() {
-    this.worker.postMessage('reset');
+    this.worker.postMessage({command: 'reset'});
   }
 
   public updateBoard() {
-    this.worker.postMessage('get')
+    this.worker.postMessage({command: 'get'})
   }
 
   public render(message: string) {

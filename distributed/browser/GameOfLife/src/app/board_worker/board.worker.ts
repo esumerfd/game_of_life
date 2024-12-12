@@ -1,30 +1,13 @@
 /// <reference lib="webworker" />
-
 import { GameOfLife } from '../../lib/domain/gameOfLife'
 import { Board } from '../../lib/domain/board'
+import { Context } from '../../lib/domain/context'
+import { CommandFactory } from '../../lib/command/commandFactory'
 
-const board = Board.fromTemplate(
-  `__________
-   __________
-   __________
-   __________
-   ____xx____
-   __________
-   __________
-   ____xxx___
-   _____x____
-   __________`)
+let context: Context = new Context()
 
-let gameOfLife = GameOfLife.init(board.clone())
-
-addEventListener('message', ({ data }) => {
-  if (data == "reset") {
-    gameOfLife = GameOfLife.init(board.clone())
-  }
-  else if (data == "get") {
-    let encodedBoard = gameOfLife.board.encode()
-    postMessage(encodedBoard)
-  }
+addEventListener('message', ({data}) => {
+  CommandFactory.create(data, context).run()
 });
 
 function initialize() {
@@ -32,7 +15,7 @@ function initialize() {
 }
 
 function loop() {
-  gameOfLife.update()
+  context.gameOfLife.update()
 }
 
 initialize()
