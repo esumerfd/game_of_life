@@ -30,10 +30,6 @@ export class BoardComponent {
     this.worker.postMessage({command: 'beacon'});
   }
 
-  public glider() {
-    this.worker.postMessage({command: 'glider'});
-  }
-
   public updateBoard() {
     this.worker.postMessage({command: 'get'})
   }
