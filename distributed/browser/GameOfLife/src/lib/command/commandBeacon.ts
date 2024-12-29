@@ -16,19 +16,14 @@ export class CommandBeacon implements ICommandDiscovery, ICommandRunner {
   }
 
   public run() {
-    let board = Board.fromTemplate(
-      `__________
-       __________
-       __xx______
-       __x_______
-       _____x____
-       ____xx____
-       __________
-       __________
-       __________
-       __________`)
-
-    this.context.gameOfLife = GameOfLife.init(board)
+    fetch("http://localhost:4200/api/beacon")
+      .then((response) => {
+        return response.text()
+      })
+      .then((template) => {
+        let board = Board.fromTemplate(template)
+        this.context.gameOfLife = GameOfLife.init(board)
+      })
   }
 }
 
