@@ -10,4 +10,10 @@ A couple of implementations to lead about technology
 * Move board generation to web worker and push encoded board to ui.
 * Decouple web worker board update from ui update.
 
+## Run
+
+* make run
+
+
+
 
